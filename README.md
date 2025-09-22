@@ -11,3 +11,4 @@ Shopify app for pro-only product access control based on butterfly_paid customer
 ## Deployment
 Deployed to DigitalOcean App Platform with custom domain: shopadmin.maliaextensions.com
 # Build fix applied
+Updated Mon Sep 22 03:16:10 MDT 2025
