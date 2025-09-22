@@ -77,18 +77,21 @@ router.get("/test-shopify", async (req, res) => {
 router.get("/dashboard", async (req, res) => {
   try {
     // Get products and collections data
-    const [productsData, collectionsData] = await Promise.all([
+    const [productsData, customCollectionsData, smartCollectionsData] = await Promise.all([
       makeShopifyRequest("/products.json?limit=250"),
-      makeShopifyRequest("/collections.json?limit=250")
+      makeShopifyRequest("/custom_collections.json?limit=250"),
+      makeShopifyRequest("/smart_collections.json?limit=250")
     ]);
 
     const products = productsData.products || [];
-    const collections = collectionsData.collections || [];
+    const customCollections = customCollectionsData.custom_collections || [];
+    const smartCollections = smartCollectionsData.smart_collections || [];
+    const allCollections = [...customCollections, ...smartCollections];
     
     // Calculate real stats
     const stats = {
       totalProducts: products.length,
-      totalCollections: collections.length,
+      totalCollections: allCollections.length,
       totalCustomers: 150, // Mock for now
       totalOrders: 500, // Mock for now
       verifiedCustomers: 75,
@@ -125,7 +128,7 @@ router.get("/dashboard", async (req, res) => {
           tags: p.tags,
           product_type: p.product_type
         })),
-        collections_sample: collections.slice(0, 10).map(c => ({
+        collections_sample: allCollections.slice(0, 10).map(c => ({
           id: c.id,
           title: c.title,
           handle: c.handle
@@ -174,18 +177,30 @@ router.get("/products", async (req, res) => {
 
 /**
  * GET /api/admin/collections
- * Get live collections from Shopify
+ * Get live collections from Shopify (both custom and smart)
  */
 router.get("/collections", async (req, res) => {
   try {
-    const data = await makeShopifyRequest("/collections.json?limit=250");
-    const collections = data.collections || [];
+    const [customCollectionsData, smartCollectionsData] = await Promise.all([
+      makeShopifyRequest("/custom_collections.json?limit=250"),
+      makeShopifyRequest("/smart_collections.json?limit=250")
+    ]);
 
-    const formattedCollections = collections.map(collection => ({
+    const customCollections = customCollectionsData.custom_collections || [];
+    const smartCollections = smartCollectionsData.smart_collections || [];
+    
+    // Combine and format collections
+    const allCollections = [
+      ...customCollections.map(c => ({ ...c, type: "custom" })),
+      ...smartCollections.map(c => ({ ...c, type: "smart" }))
+    ];
+
+    const formattedCollections = allCollections.map(collection => ({
       id: collection.id,
       title: collection.title,
       handle: collection.handle,
-      products_count: collection.products_count,
+      type: collection.type,
+      published_at: collection.published_at,
       access_level: getCollectionAccessLevel(collection)
     }));
 
@@ -246,11 +261,11 @@ function getCollectionAccessLevel(collection) {
   const title = collection.title.toLowerCase();
   
   if (handle.includes("education") || handle.includes("course") || title.includes("education")) {
-    return "none";
+    return "none"; // Everyone can buy
   } else if (handle.includes("butterfly") || handle.includes("flutter") || title.includes("butterfly") || title.includes("flutter")) {
-    return "butterfly_paid";
+    return "butterfly_paid"; // Requires butterfly_paid tag
   } else {
-    return "verified";
+    return "verified"; // Requires verified tag
   }
 }
 
