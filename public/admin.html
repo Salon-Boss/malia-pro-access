@@ -488,6 +488,10 @@
                     settings = data.settings;
                     loadSettings();
                     loadAnalytics(data.analytics);
+
+                    // Hide loading screen and show dashboard
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('dashboard').style.display = 'block';
                 } else {
                     showError('Failed to load dashboard: ' + data.error);
                 }
