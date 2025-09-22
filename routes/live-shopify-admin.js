@@ -414,6 +414,112 @@ router.put('/messages', async (req, res) => {
   }
 });
 
+// Get settings for theme integration
+router.get('/settings', async (req, res) => {
+  try {
+    console.log('🎨 Loading settings for theme integration...');
+    
+    // Load saved settings
+    const fs = require('fs');
+    const path = require('path');
+    const settingsPath = path.join(__dirname, '../data/access-control-settings.json');
+    
+    let settings = {
+      education_collections: 'courses,in-person-education-1,education',
+      butterfly_collections: 'butterfly,flutter-luxe',
+      verified_tag: 'verified',
+      butterfly_paid_tag: 'butterfly_paid'
+    };
+    
+    if (fs.existsSync(settingsPath)) {
+      const savedSettings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
+      settings = { ...settings, ...savedSettings };
+    }
+    
+    res.json({
+      success: true,
+      settings: settings
+    });
+
+  } catch (error) {
+    console.error('❌ Error loading settings for theme:', error);
+    res.status(500).json({ 
+      error: 'Failed to load settings',
+      details: error.message 
+    });
+  }
+});
+
+// Get messages for theme integration
+router.get('/messages', async (req, res) => {
+  try {
+    console.log('💬 Loading messages for theme integration...');
+    
+    // Load saved settings (messages are stored with other settings)
+    const fs = require('fs');
+    const path = require('path');
+    const settingsPath = path.join(__dirname, '../data/access-control-settings.json');
+    
+    let settings = {
+      pro_account_title: 'PRO ACCOUNT REQUIRED',
+      pro_account_subtitle: 'MALIÁ PRODUCTS ARE AVAILABLE EXCLUSIVELY TO LICENSED HAIR STYLISTS.\n\nCREATE YOUR FREE PRO ACCOUNT TO ACCESS PROFESSIONAL PRICING, MALIA EDUCATION AND TO PLACE ORDERS.',
+      pro_account_create_text: 'CREATE FREE PRO ACCOUNT',
+      pro_account_login_text: 'LOGIN',
+      pro_account_locate_text: 'LOCATE CERTIFIED MALIÁ STYLISTS NEAR YOU',
+      butterfly_title: 'BUTTERFLY CERTIFICATION REQUIRED',
+      butterfly_subtitle: 'THIS METHOD REQUIRES MALIÁ BUTTERFLY CERTIFICATION BEFORE PURCHASE.\n\nOUR TRAINING ENSURES YOU MASTER THE TECHNIQUE SAFELY AND EFFECTIVELY, PROTECTING BOTH YOU AND YOUR CLIENTS.',
+      butterfly_button_text: 'EXPLORE CERTIFICATIONS OPTIONS'
+    };
+    
+    if (fs.existsSync(settingsPath)) {
+      const savedSettings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
+      settings = { ...settings, ...savedSettings };
+    }
+    
+    res.json({
+      success: true,
+      settings: settings
+    });
+
+  } catch (error) {
+    console.error('❌ Error loading messages for theme:', error);
+    res.status(500).json({ 
+      error: 'Failed to load messages',
+      details: error.message 
+    });
+  }
+});
+
+// Track analytics from theme
+router.post('/analytics/track', async (req, res) => {
+  try {
+    const { product_id, customer_logged_in, access_level, action, timestamp } = req.body;
+    
+    console.log('📊 Analytics tracked:', {
+      product_id,
+      customer_logged_in,
+      access_level,
+      action,
+      timestamp
+    });
+    
+    // In a real implementation, save to database
+    // For now, just log and return success
+    
+    res.json({
+      success: true,
+      message: 'Analytics tracked successfully'
+    });
+
+  } catch (error) {
+    console.error('❌ Error tracking analytics:', error);
+    res.status(500).json({ 
+      error: 'Failed to track analytics',
+      details: error.message 
+    });
+  }
+});
+
 // Test Shopify connection
 router.get('/test-shopify', async (req, res) => {
   try {
