@@ -37,55 +37,31 @@ app.use(session({
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Import routes - CRITICAL: These are needed for admin dashboard
+const authRoutes = require('./routes/auth');
+const apiRoutes = require('./routes/api');
+const adminRoutes = require('./routes/admin');
+const webhookRoutes = require('./routes/webhooks');
+
+// Use routes - CRITICAL: These enable all API endpoints
+app.use('/api/auth', authRoutes);
+app.use('/api', apiRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/webhooks', webhookRoutes);
+
+// Root route - redirect to admin interface
+app.get('/', (req, res) => {
+  res.redirect('/admin.html');
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ 
     status: 'healthy', 
     timestamp: new Date().toISOString(),
-    message: 'Malia Pro Access App is running!',
+    message: 'Malia Pro Access App is running! v1.1.0 - Full API Support',
     environment: process.env.NODE_ENV || 'development'
   });
-});
-
-// Basic API endpoints
-app.get('/api/auth/status', (req, res) => {
-  res.json({
-    installed: false,
-    shopDomain: req.query.shop || 'test-shop.myshopify.com',
-    settings: null,
-    appUrl: process.env.SHOPIFY_APP_URL
-  });
-});
-
-app.get('/api/auth/install', async (req, res) => {
-  try {
-    const shopDomain = req.query.shop;
-    
-    if (!shopDomain) {
-      return res.status(400).json({ error: 'Shop domain required' });
-    }
-
-    // Initialize default settings
-    const defaultSettings = {
-      is_enabled: true,
-      butterfly_paid_tag: 'butterfly_paid',
-      certification_url: 'https://maliaextensions.com/pages/certification',
-      education_collections: 'courses,in-person-education-1',
-      pro_account_message: 'PRO ACCOUNT REQUIRED',
-      certification_message: 'CERTIFICATION REQUIRED',
-      pro_account_description: 'MALIÁ PRODUCTS ARE AVAILABLE EXCLUSIVELY TO LICENSED HAIR STYLISTS.',
-      certification_description: 'GET CERTIFIED TO ACCESS PROFESSIONAL PRICING AND PLACE ORDERS.'
-    };
-
-    res.json({ 
-      success: true, 
-      message: 'App installed successfully',
-      settings: defaultSettings 
-    });
-  } catch (error) {
-    console.error('App installation error:', error);
-    res.status(500).json({ error: 'App installation failed' });
-  }
 });
 
 // Admin interface
@@ -117,6 +93,7 @@ async function startServer() {
       console.log(`🚀 Malia Pro Access App running on port ${PORT}`);
       console.log(`📱 App URL: ${process.env.SHOPIFY_APP_URL || 'http://localhost:' + PORT}`);
       console.log(`🏪 Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log('🔧 API Routes enabled: auth, api, admin, webhooks');
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error);
