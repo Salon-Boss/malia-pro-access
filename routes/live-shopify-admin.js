@@ -1,4 +1,5 @@
 const express = require("express");
+const https = require("https");
 const router = express.Router();
 
 /**
@@ -13,27 +14,56 @@ class LiveShopifyClient {
       throw new Error("Missing Shopify credentials in environment variables");
     }
     
-    this.baseUrl = `https://${this.storeDomain}/admin/api/2023-10`;
+    console.log(`Connecting to Shopify store: ${this.storeDomain}`);
   }
 
   async makeRequest(endpoint) {
-    try {
-      const response = await fetch(`${this.baseUrl}${endpoint}`, {
+    return new Promise((resolve, reject) => {
+      const options = {
+        hostname: this.storeDomain,
+        path: `/admin/api/2023-10${endpoint}`,
+        method: "GET",
         headers: {
           "X-Shopify-Access-Token": this.accessToken,
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "User-Agent": "Malia Pro Access Dashboard/1.0"
         }
+      };
+
+      console.log(`Making request to: https://${options.hostname}${options.path}`);
+
+      const req = https.request(options, (res) => {
+        let data = "";
+        
+        res.on("data", (chunk) => {
+          data += chunk;
+        });
+        
+        res.on("end", () => {
+          console.log(`Shopify API response status: ${res.statusCode}`);
+          
+          if (res.statusCode >= 200 && res.statusCode < 300) {
+            try {
+              const jsonData = JSON.parse(data);
+              resolve(jsonData);
+            } catch (error) {
+              console.error("JSON parse error:", error);
+              reject(new Error("Invalid JSON response"));
+            }
+          } else {
+            console.error(`Shopify API error ${res.statusCode}:`, data);
+            reject(new Error(`Shopify API error: ${res.statusCode}`));
+          }
+        });
       });
-      
-      if (!response.ok) {
-        throw new Error(`Shopify API error: ${response.status}`);
-      }
-      
-      return await response.json();
-    } catch (error) {
-      console.error("Shopify API request failed:", error);
-      throw error;
-    }
+
+      req.on("error", (error) => {
+        console.error("Request error:", error);
+        reject(error);
+      });
+
+      req.end();
+    });
   }
 
   async getProducts() {
@@ -75,21 +105,23 @@ router.get("/dashboard", async (req, res) => {
     const customers = customersData.customers || [];
     const orders = ordersData.orders || [];
 
+    console.log(`Loaded: ${products.length} products, ${collections.length} collections, ${customers.length} customers, ${orders.length} orders`);
+
     // Calculate real stats
     const stats = {
       totalProducts: products.length,
       totalCollections: collections.length,
       totalCustomers: customers.length,
       totalOrders: orders.length,
-      verifiedCustomers: customers.filter(c => c.tags?.includes("verified")).length,
-      butterflyPaidCustomers: customers.filter(c => c.tags?.includes("butterfly_paid")).length
+      verifiedCustomers: customers.filter(c => c.tags && c.tags.includes("verified")).length,
+      butterflyPaidCustomers: customers.filter(c => c.tags && c.tags.includes("butterfly_paid")).length
     };
 
     // Analyze customer access levels
     const customerAnalytics = {
-      noAccess: customers.filter(c => !c.tags?.includes("verified") && !c.tags?.includes("butterfly_paid")).length,
-      verifiedOnly: customers.filter(c => c.tags?.includes("verified") && !c.tags?.includes("butterfly_paid")).length,
-      butterflyPaid: customers.filter(c => c.tags?.includes("butterfly_paid")).length
+      noAccess: customers.filter(c => !c.tags || (!c.tags.includes("verified") && !c.tags.includes("butterfly_paid"))).length,
+      verifiedOnly: customers.filter(c => c.tags && c.tags.includes("verified") && !c.tags.includes("butterfly_paid")).length,
+      butterflyPaid: customers.filter(c => c.tags && c.tags.includes("butterfly_paid")).length
     };
 
     // Default settings for 3-tier access
@@ -120,7 +152,8 @@ router.get("/dashboard", async (req, res) => {
           id: p.id,
           title: p.title,
           handle: p.handle,
-          tags: p.tags
+          tags: p.tags,
+          product_type: p.product_type
         })),
         collections_sample: collections.slice(0, 10).map(c => ({
           id: c.id,
@@ -205,23 +238,23 @@ router.get("/customers", async (req, res) => {
 
     const analytics = {
       total: customers.length,
-      no_access: customers.filter(c => !c.tags?.includes("verified") && !c.tags?.includes("butterfly_paid")).length,
-      verified_only: customers.filter(c => c.tags?.includes("verified") && !c.tags?.includes("butterfly_paid")).length,
-      butterfly_paid: customers.filter(c => c.tags?.includes("butterfly_paid")).length,
+      no_access: customers.filter(c => !c.tags || (!c.tags.includes("verified") && !c.tags.includes("butterfly_paid"))).length,
+      verified_only: customers.filter(c => c.tags && c.tags.includes("verified") && !c.tags.includes("butterfly_paid")).length,
+      butterfly_paid: customers.filter(c => c.tags && c.tags.includes("butterfly_paid")).length,
       
       // Sample customers for each category (for debugging)
       samples: {
-        no_access: customers.filter(c => !c.tags?.includes("verified") && !c.tags?.includes("butterfly_paid")).slice(0, 3).map(c => ({
+        no_access: customers.filter(c => !c.tags || (!c.tags.includes("verified") && !c.tags.includes("butterfly_paid"))).slice(0, 3).map(c => ({
           id: c.id,
           email: c.email,
           tags: c.tags
         })),
-        verified: customers.filter(c => c.tags?.includes("verified")).slice(0, 3).map(c => ({
+        verified: customers.filter(c => c.tags && c.tags.includes("verified")).slice(0, 3).map(c => ({
           id: c.id,
           email: c.email,
           tags: c.tags
         })),
-        butterfly_paid: customers.filter(c => c.tags?.includes("butterfly_paid")).slice(0, 3).map(c => ({
+        butterfly_paid: customers.filter(c => c.tags && c.tags.includes("butterfly_paid")).slice(0, 3).map(c => ({
           id: c.id,
           email: c.email,
           tags: c.tags
