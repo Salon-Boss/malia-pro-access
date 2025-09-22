@@ -1,0 +1,28 @@
+{
+  "name": "malia-pro-access-checkout-extension",
+  "version": "1.0.0",
+  "description": "Checkout UI extension for Malia Pro Access app",
+  "main": "src/Checkout.jsx",
+  "scripts": {
+    "build": "shopify app build",
+    "dev": "shopify app dev",
+    "deploy": "shopify app deploy"
+  },
+  "dependencies": {
+    "@shopify/ui-extensions-react": "^2024.1.0",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@shopify/cli": "^3.50.0"
+  },
+  "keywords": [
+    "shopify",
+    "checkout",
+    "ui-extension",
+    "malia-pro-access"
+  ],
+  "author": "Malia Extensions",
+  "license": "MIT"
+}
+
+

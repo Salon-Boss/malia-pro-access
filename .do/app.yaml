@@ -1,0 +1,45 @@
+name: malia-pro-access
+services:
+- name: web
+  source_dir: /
+  github:
+    repo: Salon-Boss/malia-pro-access
+    branch: main
+  run_command: npm start
+  environment_slug: node-js
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  http_port: 8080
+  envs:
+  - key: NODE_ENV
+    value: production
+  - key: PORT
+    value: "8080"
+  - key: SHOPIFY_API_KEY
+    value: "69b791663f7fde5377bf5bf9b590df4d"
+  - key: SHOPIFY_API_SECRET
+    value: "d3b343cbde1042bed471307dcf77ac82"
+  - key: SHOPIFY_SCOPES
+    value: "read_products,write_products,read_customers,write_customers,read_orders,write_orders,read_metafields,write_metafields,read_themes,write_themes"
+  - key: SHOPIFY_APP_URL
+    value: "https://shopadmin.maliaextensions.com"
+  - key: SHOPIFY_APP_HANDLE
+    value: "malia-pro-access"
+  - key: BUTTERFLY_PAID_TAG
+    value: "butterfly_paid"
+  - key: CERTIFICATION_URL
+    value: "https://maliaextensions.com/pages/certification"
+  - key: DEFAULT_EDUCATION_COLLECTIONS
+    value: "courses,in-person-education-1"
+  - key: SESSION_SECRET
+    type: SECRET
+    value: "malia-pro-access-secret-2024"
+databases:
+- name: malia-pro-access-db
+  engine: PG
+  version: "13"
+  size: db-s-dev-database
+domains:
+- domain: shopadmin.maliaextensions.com
+  type: PRIMARY
+  zone: maliaextensions.com

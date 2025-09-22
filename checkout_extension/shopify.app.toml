@@ -1,0 +1,49 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+name = "malia-pro-access"
+client_id = "your_client_id_here"
+application_url = "https://your-app-url.ngrok.io"
+embedded = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_products,write_products,read_customers,write_customers,read_orders,write_orders,read_metafields,write_metafields,read_themes,write_themes"
+
+[auth]
+redirect_urls = [
+  "https://your-app-url.ngrok.io/api/auth/callback",
+  "https://your-app-url.ngrok.io/api/auth/shopify/callback",
+  "https://your-app-url.ngrok.io/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-01"
+
+[pos]
+embedded = false
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "your-dev-store.myshopify.com"
+
+[[extensions]]
+type = "checkout_ui_extension"
+name = "malia-pro-access-checkout"
+handle = "malia-pro-access-checkout"
+
+[extensions.settings]
+[[extensions.settings.fields]]
+key = "butterfly_paid_tag"
+type = "single_line_text_field"
+name = "Butterfly Paid Tag"
+description = "The customer tag that indicates pro access"
+default = "butterfly_paid"
+
+[[extensions.settings.fields]]
+key = "certification_url"
+type = "single_line_text_field"
+name = "Certification URL"
+description = "URL to the certification page"
+default = "https://maliaextensions.com/pages/certification"
+
+
