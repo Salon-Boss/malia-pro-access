@@ -90,8 +90,8 @@ router.get('/dashboard', async (req, res) => {
       publicCustomers: totalCustomers - verifiedCustomers - butterflyPaidCustomers
     };
 
-    // Default settings for 3-tier system
-    const settings = {
+    // Load saved settings or use defaults
+    let settings = {
       is_enabled: true,
       verified_tag: 'verified',
       butterfly_paid_tag: 'butterfly_paid',
@@ -107,6 +107,21 @@ router.get('/dashboard', async (req, res) => {
       butterfly_subtitle: 'THIS METHOD REQUIRES MALIÁ BUTTERFLY CERTIFICATION BEFORE PURCHASE.\n\nOUR TRAINING ENSURES YOU MASTER THE TECHNIQUE SAFELY AND EFFECTIVELY, PROTECTING BOTH YOU AND YOUR CLIENTS.',
       butterfly_button_text: 'EXPLORE CERTIFICATIONS OPTIONS'
     };
+
+    // Try to load saved settings
+    try {
+      const fs = require('fs');
+      const path = require('path');
+      const settingsPath = path.join(__dirname, '../data/access-control-settings.json');
+      
+      if (fs.existsSync(settingsPath)) {
+        const savedSettings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
+        settings = { ...settings, ...savedSettings };
+        console.log('✅ Loaded saved access control settings');
+      }
+    } catch (error) {
+      console.log('⚠️ Could not load saved settings, using defaults:', error.message);
+    }
 
     // Mock analytics data
     const analytics = [
@@ -311,12 +326,33 @@ router.put('/access-control', async (req, res) => {
     const settings = req.body;
     console.log('💾 Saving access control settings:', settings);
 
-    // In a real implementation, save to database
-    // For now, just return success
+    // Save to file system for persistence
+    const fs = require('fs');
+    const path = require('path');
+    const settingsPath = path.join(__dirname, '../data/access-control-settings.json');
+    
+    // Create data directory if it doesn't exist
+    const dataDir = path.join(__dirname, '../data');
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+    
+    // Add timestamp
+    const settingsWithTimestamp = {
+      ...settings,
+      updated_at: new Date().toISOString()
+    };
+    
+    // Write settings to file
+    fs.writeFileSync(settingsPath, JSON.stringify(settingsWithTimestamp, null, 2));
+    
+    console.log('✅ Access control settings saved to:', settingsPath);
+    console.log('📋 Saved settings:', settingsWithTimestamp);
     
     res.json({
       success: true,
-      message: 'Access control settings saved successfully'
+      message: 'Access control settings saved successfully',
+      settings: settingsWithTimestamp
     });
 
   } catch (error) {
@@ -334,12 +370,39 @@ router.put('/messages', async (req, res) => {
     const messages = req.body;
     console.log('💬 Saving message settings:', messages);
 
-    // In a real implementation, save to database
-    // For now, just return success
+    // Load existing settings and merge with messages
+    const fs = require('fs');
+    const path = require('path');
+    const settingsPath = path.join(__dirname, '../data/access-control-settings.json');
+    
+    let existingSettings = {};
+    if (fs.existsSync(settingsPath)) {
+      existingSettings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
+    }
+    
+    // Merge message settings with existing settings
+    const updatedSettings = {
+      ...existingSettings,
+      ...messages,
+      updated_at: new Date().toISOString()
+    };
+    
+    // Create data directory if it doesn't exist
+    const dataDir = path.join(__dirname, '../data');
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+    
+    // Write updated settings to file
+    fs.writeFileSync(settingsPath, JSON.stringify(updatedSettings, null, 2));
+    
+    console.log('✅ Message settings saved to:', settingsPath);
+    console.log('📋 Updated settings:', updatedSettings);
     
     res.json({
       success: true,
-      message: 'Message settings saved successfully'
+      message: 'Message settings saved successfully',
+      settings: updatedSettings
     });
 
   } catch (error) {
