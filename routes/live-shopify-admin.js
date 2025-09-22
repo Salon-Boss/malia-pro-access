@@ -466,9 +466,13 @@ router.get('/messages', async (req, res) => {
       pro_account_create_text: 'CREATE FREE PRO ACCOUNT',
       pro_account_login_text: 'LOGIN',
       pro_account_locate_text: 'LOCATE CERTIFIED MALIÁ STYLISTS NEAR YOU',
+      create_account_url: '/account/register',
+      login_url: '/account/login',
+      locate_stylists_url: '/pages/find-stylists',
       butterfly_title: 'BUTTERFLY CERTIFICATION REQUIRED',
       butterfly_subtitle: 'THIS METHOD REQUIRES MALIÁ BUTTERFLY CERTIFICATION BEFORE PURCHASE.\n\nOUR TRAINING ENSURES YOU MASTER THE TECHNIQUE SAFELY AND EFFECTIVELY, PROTECTING BOTH YOU AND YOUR CLIENTS.',
-      butterfly_button_text: 'EXPLORE CERTIFICATIONS OPTIONS'
+      butterfly_button_text: 'EXPLORE CERTIFICATIONS OPTIONS',
+      certification_url: 'https://maliaextensions.com/pages/certification'
     };
     
     if (fs.existsSync(settingsPath)) {

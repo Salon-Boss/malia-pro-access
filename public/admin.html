@@ -560,6 +560,26 @@ CREATE YOUR FREE PRO ACCOUNT TO ACCESS PROFESSIONAL PRICING, MALIA EDUCATION AND
                             <input type="text" id="proAccountLocateText" name="proAccountLocateText" value="LOCATE CERTIFIED MALIÁ STYLISTS NEAR YOU">
                         </div>
 
+                        <h4 style="margin: 30px 0 20px 0; color: #1a1a1a;">🔗 Button & Link URLs</h4>
+                        
+                        <div class="form-group">
+                            <label for="createAccountUrl">Create Account URL</label>
+                            <input type="url" id="createAccountUrl" name="createAccountUrl" value="/account/register" placeholder="e.g., /account/register">
+                            <small style="color: #6c757d;">URL for the "Create Free Pro Account" button</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="loginUrl">Login URL</label>
+                            <input type="url" id="loginUrl" name="loginUrl" value="/account/login" placeholder="e.g., /account/login">
+                            <small style="color: #6c757d;">URL for the "Login" button</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="locateStylistsUrl">Locate Stylists URL</label>
+                            <input type="url" id="locateStylistsUrl" name="locateStylistsUrl" value="/pages/find-stylists" placeholder="e.g., /pages/find-stylists">
+                            <small style="color: #6c757d;">URL for the "Locate Certified Stylists" link</small>
+                        </div>
+
                         <!-- Message Preview -->
                         <div class="message-preview">
                             <h4 id="previewProTitle">🔒 PRO ACCOUNT REQUIRED</h4>
@@ -590,6 +610,12 @@ OUR TRAINING ENSURES YOU MASTER THE TECHNIQUE SAFELY AND EFFECTIVELY, PROTECTING
                         <div class="form-group">
                             <label for="butterflyButtonText">Certification Button Text</label>
                             <input type="text" id="butterflyButtonText" name="butterflyButtonText" value="EXPLORE CERTIFICATIONS OPTIONS">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="certificationUrl">Certification URL</label>
+                            <input type="url" id="certificationUrl" name="certificationUrl" value="https://maliaextensions.com/pages/certification" placeholder="https://maliaextensions.com/pages/certification">
+                            <small style="color: #6c757d;">URL for the "Explore Certifications Options" button</small>
                         </div>
 
                         <!-- Message Preview -->
@@ -707,9 +733,15 @@ OUR TRAINING ENSURES YOU MASTER THE TECHNIQUE SAFELY AND EFFECTIVELY, PROTECTING
                 document.getElementById('proAccountLoginText').value = settings.pro_account_login_text || 'LOGIN';
                 document.getElementById('proAccountLocateText').value = settings.pro_account_locate_text || 'LOCATE CERTIFIED MALIÁ STYLISTS NEAR YOU';
                 
+                // Load URLs
+                document.getElementById('createAccountUrl').value = settings.create_account_url || '/account/register';
+                document.getElementById('loginUrl').value = settings.login_url || '/account/login';
+                document.getElementById('locateStylistsUrl').value = settings.locate_stylists_url || '/pages/find-stylists';
+                
                 document.getElementById('butterflyTitle').value = settings.butterfly_title || 'BUTTERFLY CERTIFICATION REQUIRED';
                 document.getElementById('butterflySubtitle').value = settings.butterfly_subtitle || 'THIS METHOD REQUIRES MALIÁ BUTTERFLY CERTIFICATION BEFORE PURCHASE.\n\nOUR TRAINING ENSURES YOU MASTER THE TECHNIQUE SAFELY AND EFFECTIVELY, PROTECTING BOTH YOU AND YOUR CLIENTS.';
                 document.getElementById('butterflyButtonText').value = settings.butterfly_button_text || 'EXPLORE CERTIFICATIONS OPTIONS';
+                document.getElementById('certificationUrl').value = settings.certification_url || 'https://maliaextensions.com/pages/certification';
                 
                 // Update previews
                 updateProPreview();
@@ -765,9 +797,13 @@ OUR TRAINING ENSURES YOU MASTER THE TECHNIQUE SAFELY AND EFFECTIVELY, PROTECTING
                 pro_account_create_text: formData.get('proAccountCreateText'),
                 pro_account_login_text: formData.get('proAccountLoginText'),
                 pro_account_locate_text: formData.get('proAccountLocateText'),
+                create_account_url: formData.get('createAccountUrl'),
+                login_url: formData.get('loginUrl'),
+                locate_stylists_url: formData.get('locateStylistsUrl'),
                 butterfly_title: formData.get('butterflyTitle'),
                 butterfly_subtitle: formData.get('butterflySubtitle'),
-                butterfly_button_text: formData.get('butterflyButtonText')
+                butterfly_button_text: formData.get('butterflyButtonText'),
+                certification_url: formData.get('certificationUrl')
             };
 
             try {
