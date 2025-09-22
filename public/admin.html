@@ -19,52 +19,62 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
 
         .header {
             background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
         }
 
         .header h1 {
-            color: #2c3e50;
+            color: #1a1a1a;
             margin-bottom: 10px;
+            font-size: 2.2em;
+            font-weight: 700;
         }
 
         .header p {
             color: #6c757d;
+            font-size: 1.1em;
         }
 
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
         }
 
         .card {
             background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
         }
 
         .card h3 {
-            margin-bottom: 15px;
-            color: #2c3e50;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+            font-size: 1.3em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .stat {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
+            padding: 12px 0;
             border-bottom: 1px solid #e9ecef;
         }
 
@@ -73,49 +83,66 @@
         }
 
         .stat-value {
-            font-weight: 600;
-            color: #2c3e50;
+            font-weight: 700;
+            color: #1a1a1a;
+            font-size: 1.1em;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-            color: #2c3e50;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1a1a1a;
+            font-size: 0.95em;
         }
 
         .form-group input,
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #d1d5db;
-            border-radius: 4px;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
             font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #2c3e50;
+            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
         }
 
         .form-group textarea {
             resize: vertical;
-            min-height: 80px;
+            min-height: 100px;
         }
 
         .btn {
             background: #2c3e50;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
+            padding: 12px 24px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 14px;
-            transition: background-color 0.2s;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .btn:hover {
             background: #34495e;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(44, 62, 80, 0.2);
         }
 
         .btn-success {
@@ -124,6 +151,7 @@
 
         .btn-success:hover {
             background: #229954;
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.2);
         }
 
         .btn-danger {
@@ -132,6 +160,7 @@
 
         .btn-danger:hover {
             background: #c0392b;
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.2);
         }
 
         .btn-secondary {
@@ -140,70 +169,39 @@
 
         .btn-secondary:hover {
             background: #5a6268;
-        }
-
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .table th,
-        .table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .table th {
-            background: #f8f9fa;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .table tbody tr:hover {
-            background: #f8f9fa;
-        }
-
-        .status-badge {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .status-restricted {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-
-        .status-unrestricted {
-            background: #dcfce7;
-            color: #16a34a;
-        }
-
-        .status-exception {
-            background: #dbeafe;
-            color: #2563eb;
+            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.2);
         }
 
         .tabs {
             display: flex;
-            border-bottom: 1px solid #e9ecef;
-            margin-bottom: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            gap: 4px;
         }
 
         .tab {
-            padding: 10px 20px;
+            flex: 1;
+            padding: 16px 20px;
             cursor: pointer;
-            border-bottom: 2px solid transparent;
+            border-radius: 8px;
             transition: all 0.2s;
+            text-align: center;
+            font-weight: 600;
+            color: #6c757d;
         }
 
         .tab.active {
-            border-bottom-color: #2c3e50;
+            background: #2c3e50;
+            color: white;
+            box-shadow: 0 2px 8px rgba(44, 62, 80, 0.2);
+        }
+
+        .tab:hover:not(.active) {
+            background: #f8f9fa;
             color: #2c3e50;
-            font-weight: 500;
         }
 
         .tab-content {
@@ -216,76 +214,173 @@
 
         .loading {
             text-align: center;
-            padding: 40px;
+            padding: 60px;
             color: #6c757d;
+            font-size: 1.1em;
         }
 
         .error {
             background: #fee2e2;
             color: #dc2626;
-            padding: 10px;
-            border-radius: 4px;
+            padding: 16px;
+            border-radius: 8px;
             margin-bottom: 20px;
+            border: 1px solid #fecaca;
         }
 
         .success {
             background: #dcfce7;
             color: #16a34a;
-            padding: 10px;
-            border-radius: 4px;
+            padding: 16px;
+            border-radius: 8px;
             margin-bottom: 20px;
+            border: 1px solid #bbf7d0;
         }
 
-        .search-box {
+        /* Message Preview Styles */
+        .message-preview {
+            background: #1a1a1a;
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .message-preview h4 {
+            font-size: 1.8em;
+            font-weight: 700;
             margin-bottom: 20px;
+            letter-spacing: 2px;
         }
 
-        .search-box input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #d1d5db;
-            border-radius: 4px;
+        .message-preview p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 25px;
         }
 
-        .pagination {
+        .message-preview .btn-group {
             display: flex;
+            gap: 15px;
             justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-            gap: 10px;
+            flex-wrap: wrap;
         }
 
-        .pagination button {
-            padding: 8px 12px;
-            border: 1px solid #d1d5db;
+        .message-preview .btn-black {
+            background: #1a1a1a;
+            border: 2px solid white;
+            color: white;
+            padding: 15px 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .message-preview .btn-white {
             background: white;
-            cursor: pointer;
-            border-radius: 4px;
+            border: 2px solid white;
+            color: #1a1a1a;
+            padding: 15px 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .pagination button:hover {
+        .access-tier {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .access-tier h4 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .access-tier p {
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .collection-card {
             background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            transition: all 0.2s;
         }
 
-        .pagination button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .collection-card:hover {
+            border-color: #2c3e50;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .bulk-actions {
-            margin-bottom: 20px;
+        .collection-card h5 {
+            margin-bottom: 10px;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        .collection-card p {
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .access-level-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .level-public {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .level-verified {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .level-butterfly {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .multi-select {
+            min-height: 120px;
+        }
+
+        .checkbox-group {
             display: flex;
-            gap: 10px;
             align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
-        .checkbox {
-            margin-right: 8px;
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
         }
 
         @media (max-width: 768px) {
             .container {
-                padding: 10px;
+                padding: 15px;
             }
             
             .dashboard-grid {
@@ -293,16 +388,11 @@
             }
             
             .tabs {
-                flex-wrap: wrap;
+                flex-direction: column;
             }
             
-            .table {
-                font-size: 14px;
-            }
-            
-            .table th,
-            .table td {
-                padding: 8px;
+            .message-preview .btn-group {
+                flex-direction: column;
             }
         }
     </style>
@@ -311,7 +401,7 @@
     <div class="container">
         <div class="header">
             <h1>🦋 Malia Pro Access Dashboard</h1>
-            <p>Manage product restrictions and pro account settings</p>
+            <p>3-Tier Access Control System for Professional Hair Stylists</p>
         </div>
 
         <div id="loading" class="loading">
@@ -322,129 +412,207 @@
             <!-- Dashboard Stats -->
             <div class="dashboard-grid">
                 <div class="card">
-                    <h3>📊 Overview</h3>
+                    <h3>📊 Store Overview</h3>
                     <div class="stat">
                         <span>Total Products</span>
                         <span class="stat-value" id="totalProducts">-</span>
-                    </div>
-                    <div class="stat">
-                        <span>Restricted Products</span>
-                        <span class="stat-value" id="restrictedProducts">-</span>
                     </div>
                     <div class="stat">
                         <span>Total Collections</span>
                         <span class="stat-value" id="totalCollections">-</span>
                     </div>
                     <div class="stat">
-                        <span>Exception Collections</span>
-                        <span class="stat-value" id="exceptionCollections">-</span>
+                        <span>Total Customers</span>
+                        <span class="stat-value" id="totalCustomers">-</span>
                     </div>
                 </div>
 
                 <div class="card">
-                    <h3>📈 Analytics (30 days)</h3>
-                    <div id="analyticsStats">
-                        <div class="loading">Loading analytics...</div>
+                    <h3>👥 Customer Access Levels</h3>
+                    <div class="stat">
+                        <span>Verified Customers</span>
+                        <span class="stat-value" id="verifiedCustomers">-</span>
+                    </div>
+                    <div class="stat">
+                        <span>Butterfly Paid Customers</span>
+                        <span class="stat-value" id="butterflyCustomers">-</span>
+                    </div>
+                    <div class="stat">
+                        <span>Public Access Only</span>
+                        <span class="stat-value" id="publicCustomers">-</span>
                     </div>
                 </div>
 
                 <div class="card">
                     <h3>⚙️ Quick Actions</h3>
-                    <button class="btn" onclick="loadSettings()">Update Settings</button>
-                    <button class="btn btn-secondary" onclick="refreshData()">Refresh Data</button>
-                    <button class="btn btn-success" onclick="exportSettings()">Export Settings</button>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <button class="btn btn-success" onclick="testMessages()">🔍 Preview Messages</button>
+                        <button class="btn btn-secondary" onclick="refreshData()">🔄 Refresh Data</button>
+                        <button class="btn" onclick="exportSettings()">📥 Export Settings</button>
+                    </div>
                 </div>
             </div>
 
             <!-- Tabs -->
             <div class="tabs">
-                <div class="tab active" onclick="switchTab('settings')">Settings</div>
-                <div class="tab" onclick="switchTab('products')">Products</div>
-                <div class="tab" onclick="switchTab('collections')">Collections</div>
-                <div class="tab" onclick="switchTab('analytics')">Analytics</div>
+                <div class="tab active" onclick="switchTab('access-control')">🔐 Access Control</div>
+                <div class="tab" onclick="switchTab('messages')">💬 Messages</div>
+                <div class="tab" onclick="switchTab('collections')">📁 Collections</div>
+                <div class="tab" onclick="switchTab('analytics')">📈 Analytics</div>
             </div>
 
-            <!-- Settings Tab -->
-            <div id="settings-tab" class="tab-content active">
+            <!-- Access Control Tab -->
+            <div id="access-control-tab" class="tab-content active">
                 <div class="card">
-                    <h3>App Settings</h3>
-                    <form id="settingsForm">
+                    <h3>🎯 3-Tier Access System Configuration</h3>
+                    
+                    <div class="access-tier">
+                        <h4>🔓 Level 1: Public Access (Not Logged In)</h4>
+                        <p>Customers can only view and purchase education products. All other products show "Pro Account Required" message.</p>
+                    </div>
+                    
+                    <div class="access-tier">
+                        <h4>✅ Level 2: Verified Access (Customer Tag: "verified")</h4>
+                        <p>Access to most products except Butterfly and Flutter Luxe collections. Can purchase education + standard products.</p>
+                    </div>
+                    
+                    <div class="access-tier">
+                        <h4>🦋 Level 3: Butterfly Access (Customer Tag: "butterfly_paid")</h4>
+                        <p>Full access to all products including Butterfly and Flutter Luxe collections.</p>
+                    </div>
+
+                    <form id="accessControlForm">
                         <div class="form-group">
-                            <label>
-                                <input type="checkbox" id="isEnabled" name="isEnabled"> 
-                                Enable Pro Access Control
-                            </label>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="isEnabled" name="isEnabled">
+                                <label for="isEnabled">Enable 3-Tier Access Control System</label>
+                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="butterflyPaidTag">Butterfly Paid Tag</label>
-                            <input type="text" id="butterflyPaidTag" name="butterflyPaidTag" value="butterfly_paid">
+                            <label for="verifiedTag">Verified Customer Tag</label>
+                            <input type="text" id="verifiedTag" name="verifiedTag" value="verified" placeholder="e.g., verified">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="butterflyTag">Butterfly Paid Customer Tag</label>
+                            <input type="text" id="butterflyTag" name="butterflyTag" value="butterfly_paid" placeholder="e.g., butterfly_paid">
                         </div>
 
                         <div class="form-group">
                             <label for="certificationUrl">Certification URL</label>
-                            <input type="url" id="certificationUrl" name="certificationUrl" value="https://maliaextensions.com/pages/certification">
+                            <input type="url" id="certificationUrl" name="certificationUrl" value="https://maliaextensions.com/pages/certification" placeholder="https://maliaextensions.com/pages/certification">
                         </div>
 
                         <div class="form-group">
-                            <label for="educationCollections">Education Collections (comma-separated)</label>
-                            <input type="text" id="educationCollections" name="educationCollections" value="courses,in-person-education-1">
+                            <label for="educationCollections">Education Collections (Available to All)</label>
+                            <select id="educationCollections" name="educationCollections" multiple class="multi-select">
+                                <option value="">Loading collections...</option>
+                            </select>
+                            <small style="color: #6c757d;">Hold Ctrl/Cmd to select multiple collections</small>
                         </div>
 
                         <div class="form-group">
-                            <label for="proAccountMessage">Pro Account Required Message</label>
-                            <input type="text" id="proAccountMessage" name="proAccountMessage" value="PRO ACCOUNT REQUIRED">
+                            <label for="butterflyCollections">Butterfly-Only Collections (Require "butterfly_paid" tag)</label>
+                            <select id="butterflyCollections" name="butterflyCollections" multiple class="multi-select">
+                                <option value="">Loading collections...</option>
+                            </select>
+                            <small style="color: #6c757d;">Collections that require Butterfly certification</small>
                         </div>
 
-                        <div class="form-group">
-                            <label for="proAccountDescription">Pro Account Description</label>
-                            <textarea id="proAccountDescription" name="proAccountDescription">MALIÁ PRODUCTS ARE AVAILABLE EXCLUSIVELY TO LICENSED HAIR STYLISTS.</textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="certificationMessage">Certification Required Message</label>
-                            <input type="text" id="certificationMessage" name="certificationMessage" value="CERTIFICATION REQUIRED">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="certificationDescription">Certification Description</label>
-                            <textarea id="certificationDescription" name="certificationDescription">GET CERTIFIED TO ACCESS PROFESSIONAL PRICING AND PLACE ORDERS.</textarea>
-                        </div>
-
-                        <button type="submit" class="btn btn-success">Save Settings</button>
+                        <button type="submit" class="btn btn-success">💾 Save Access Control Settings</button>
                     </form>
                 </div>
             </div>
 
-            <!-- Products Tab -->
-            <div id="products-tab" class="tab-content">
+            <!-- Messages Tab -->
+            <div id="messages-tab" class="tab-content">
                 <div class="card">
-                    <h3>Product Restrictions</h3>
+                    <h3>💬 Customer Messages Configuration</h3>
                     
-                    <div class="search-box">
-                        <input type="text" id="productSearch" placeholder="Search products..." onkeyup="searchProducts()">
-                    </div>
+                    <form id="messagesForm">
+                        <h4 style="margin-bottom: 20px; color: #1a1a1a;">📝 Message 1: Pro Account Required (Not Logged In)</h4>
+                        
+                        <div class="form-group">
+                            <label for="proAccountTitle">Main Title</label>
+                            <input type="text" id="proAccountTitle" name="proAccountTitle" value="PRO ACCOUNT REQUIRED">
+                        </div>
 
-                    <div class="bulk-actions">
-                        <button class="btn btn-secondary" onclick="selectAllProducts()">Select All</button>
-                        <button class="btn btn-secondary" onclick="deselectAllProducts()">Deselect All</button>
-                        <button class="btn btn-success" onclick="bulkSetRestricted()">Set Selected as Restricted</button>
-                        <button class="btn" onclick="bulkSetUnrestricted()">Set Selected as Unrestricted</button>
-                    </div>
+                        <div class="form-group">
+                            <label for="proAccountSubtitle">Subtitle Message</label>
+                            <textarea id="proAccountSubtitle" name="proAccountSubtitle">MALIÁ PRODUCTS ARE AVAILABLE EXCLUSIVELY TO LICENSED HAIR STYLISTS.
 
-                    <div id="productsTable">
-                        <div class="loading">Loading products...</div>
-                    </div>
+CREATE YOUR FREE PRO ACCOUNT TO ACCESS PROFESSIONAL PRICING, MALIA EDUCATION AND TO PLACE ORDERS.</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="proAccountCreateText">Create Account Button Text</label>
+                            <input type="text" id="proAccountCreateText" name="proAccountCreateText" value="CREATE FREE PRO ACCOUNT">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="proAccountLoginText">Login Button Text</label>
+                            <input type="text" id="proAccountLoginText" name="proAccountLoginText" value="LOGIN">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="proAccountLocateText">Locate Stylists Link Text</label>
+                            <input type="text" id="proAccountLocateText" name="proAccountLocateText" value="LOCATE CERTIFIED MALIÁ STYLISTS NEAR YOU">
+                        </div>
+
+                        <!-- Message Preview -->
+                        <div class="message-preview">
+                            <h4 id="previewProTitle">🔒 PRO ACCOUNT REQUIRED</h4>
+                            <p id="previewProSubtitle">MALIÁ PRODUCTS ARE AVAILABLE EXCLUSIVELY TO LICENSED HAIR STYLISTS.<br><br>CREATE YOUR FREE PRO ACCOUNT TO ACCESS PROFESSIONAL PRICING, MALIA EDUCATION AND TO PLACE ORDERS.</p>
+                            <div class="btn-group">
+                                <button type="button" class="btn-black">CREATE FREE PRO ACCOUNT →</button>
+                                <button type="button" class="btn-white">LOGIN →</button>
+                            </div>
+                            <p style="margin-top: 20px; text-decoration: underline; cursor: pointer;">LOCATE CERTIFIED MALIÁ STYLISTS NEAR YOU</p>
+                        </div>
+
+                        <hr style="margin: 40px 0; border: 1px solid #e9ecef;">
+
+                        <h4 style="margin-bottom: 20px; color: #1a1a1a;">🦋 Message 2: Butterfly Certification Required (Verified Customers)</h4>
+                        
+                        <div class="form-group">
+                            <label for="butterflyTitle">Main Title</label>
+                            <input type="text" id="butterflyTitle" name="butterflyTitle" value="BUTTERFLY CERTIFICATION REQUIRED">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="butterflySubtitle">Subtitle Message</label>
+                            <textarea id="butterflySubtitle" name="butterflySubtitle">THIS METHOD REQUIRES MALIÁ BUTTERFLY CERTIFICATION BEFORE PURCHASE.
+
+OUR TRAINING ENSURES YOU MASTER THE TECHNIQUE SAFELY AND EFFECTIVELY, PROTECTING BOTH YOU AND YOUR CLIENTS.</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="butterflyButtonText">Certification Button Text</label>
+                            <input type="text" id="butterflyButtonText" name="butterflyButtonText" value="EXPLORE CERTIFICATIONS OPTIONS">
+                        </div>
+
+                        <!-- Message Preview -->
+                        <div class="message-preview">
+                            <h4 id="previewButterflyTitle">🔒 BUTTERFLY CERTIFICATION REQUIRED</h4>
+                            <p id="previewButterflySubtitle">THIS METHOD REQUIRES MALIÁ BUTTERFLY CERTIFICATION BEFORE PURCHASE.<br><br>OUR TRAINING ENSURES YOU MASTER THE TECHNIQUE SAFELY AND EFFECTIVELY, PROTECTING BOTH YOU AND YOUR CLIENTS.</p>
+                            <div class="btn-group">
+                                <button type="button" class="btn-black">EXPLORE CERTIFICATIONS OPTIONS →</button>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">💾 Save Message Settings</button>
+                    </form>
                 </div>
             </div>
 
             <!-- Collections Tab -->
             <div id="collections-tab" class="tab-content">
                 <div class="card">
-                    <h3>Collection Exceptions</h3>
-                    <p>Collections marked as exceptions will allow unrestricted access to their products.</p>
+                    <h3>📁 Collection Access Management</h3>
+                    <p style="margin-bottom: 25px; color: #6c757d;">Configure which collections are available to each access tier. Changes are automatically applied to all products in these collections.</p>
                     
-                    <div id="collectionsTable">
+                    <div id="collectionsGrid" class="collection-grid">
                         <div class="loading">Loading collections...</div>
                     </div>
                 </div>
@@ -453,7 +621,7 @@
             <!-- Analytics Tab -->
             <div id="analytics-tab" class="tab-content">
                 <div class="card">
-                    <h3>Access Analytics</h3>
+                    <h3>📈 Access Analytics</h3>
                     <div id="analyticsContent">
                         <div class="loading">Loading analytics...</div>
                     </div>
@@ -463,10 +631,10 @@
     </div>
 
     <script>
-        let currentTab = 'settings';
-        let products = [];
+        let currentTab = 'access-control';
         let collections = [];
         let settings = {};
+        let analytics = {};
 
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
@@ -475,7 +643,24 @@
         });
 
         function setupEventListeners() {
-            document.getElementById('settingsForm').addEventListener('submit', saveSettings);
+            document.getElementById('accessControlForm').addEventListener('submit', saveAccessControl);
+            document.getElementById('messagesForm').addEventListener('submit', saveMessages);
+            
+            // Live preview updates for messages
+            document.getElementById('proAccountTitle').addEventListener('input', updateProPreview);
+            document.getElementById('proAccountSubtitle').addEventListener('input', updateProPreview);
+            document.getElementById('butterflyTitle').addEventListener('input', updateButterflyPreview);
+            document.getElementById('butterflySubtitle').addEventListener('input', updateButterflyPreview);
+        }
+
+        function updateProPreview() {
+            document.getElementById('previewProTitle').textContent = '🔒 ' + document.getElementById('proAccountTitle').value;
+            document.getElementById('previewProSubtitle').innerHTML = document.getElementById('proAccountSubtitle').value.replace(/\n/g, '<br>');
+        }
+
+        function updateButterflyPreview() {
+            document.getElementById('previewButterflyTitle').textContent = '🔒 ' + document.getElementById('butterflyTitle').value;
+            document.getElementById('previewButterflySubtitle').innerHTML = document.getElementById('butterflySubtitle').value.replace(/\n/g, '<br>');
         }
 
         async function loadDashboard() {
@@ -485,9 +670,12 @@
                 
                 if (response.ok) {
                     updateDashboardStats(data);
-                    settings = data.settings;
+                    settings = data.settings || {};
                     loadSettings();
-                    loadAnalytics(data.analytics);
+                    
+                    // Hide loading screen and show dashboard
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('dashboard').style.display = 'block';
                 } else {
                     showError('Failed to load dashboard: ' + data.error);
                 }
@@ -497,42 +685,56 @@
         }
 
         function updateDashboardStats(data) {
-            document.getElementById('totalProducts').textContent = data.stats.totalProducts;
-            document.getElementById('restrictedProducts').textContent = data.stats.restrictedProducts;
-            document.getElementById('totalCollections').textContent = data.stats.totalCollections;
-            document.getElementById('exceptionCollections').textContent = data.stats.exceptionCollections;
+            document.getElementById('totalProducts').textContent = data.stats?.totalProducts || 0;
+            document.getElementById('totalCollections').textContent = data.stats?.totalCollections || 0;
+            document.getElementById('totalCustomers').textContent = data.stats?.totalCustomers || 0;
+            document.getElementById('verifiedCustomers').textContent = data.stats?.verifiedCustomers || 0;
+            document.getElementById('butterflyCustomers').textContent = data.stats?.butterflyPaidCustomers || 0;
+            document.getElementById('publicCustomers').textContent = (data.stats?.totalCustomers || 0) - (data.stats?.verifiedCustomers || 0) - (data.stats?.butterflyPaidCustomers || 0);
         }
 
         function loadSettings() {
             if (settings) {
-                document.getElementById('isEnabled').checked = settings.is_enabled;
-                document.getElementById('butterflyPaidTag').value = settings.butterfly_paid_tag;
-                document.getElementById('certificationUrl').value = settings.certification_url;
-                document.getElementById('educationCollections').value = settings.education_collections;
-                document.getElementById('proAccountMessage').value = settings.pro_account_message;
-                document.getElementById('proAccountDescription').value = settings.pro_account_description;
-                document.getElementById('certificationMessage').value = settings.certification_message;
-                document.getElementById('certificationDescription').value = settings.certification_description;
+                document.getElementById('isEnabled').checked = settings.is_enabled || false;
+                document.getElementById('verifiedTag').value = settings.verified_tag || 'verified';
+                document.getElementById('butterflyTag').value = settings.butterfly_paid_tag || 'butterfly_paid';
+                document.getElementById('certificationUrl').value = settings.certification_url || 'https://maliaextensions.com/pages/certification';
+                
+                // Load messages
+                document.getElementById('proAccountTitle').value = settings.pro_account_title || 'PRO ACCOUNT REQUIRED';
+                document.getElementById('proAccountSubtitle').value = settings.pro_account_subtitle || 'MALIÁ PRODUCTS ARE AVAILABLE EXCLUSIVELY TO LICENSED HAIR STYLISTS.\n\nCREATE YOUR FREE PRO ACCOUNT TO ACCESS PROFESSIONAL PRICING, MALIA EDUCATION AND TO PLACE ORDERS.';
+                document.getElementById('proAccountCreateText').value = settings.pro_account_create_text || 'CREATE FREE PRO ACCOUNT';
+                document.getElementById('proAccountLoginText').value = settings.pro_account_login_text || 'LOGIN';
+                document.getElementById('proAccountLocateText').value = settings.pro_account_locate_text || 'LOCATE CERTIFIED MALIÁ STYLISTS NEAR YOU';
+                
+                document.getElementById('butterflyTitle').value = settings.butterfly_title || 'BUTTERFLY CERTIFICATION REQUIRED';
+                document.getElementById('butterflySubtitle').value = settings.butterfly_subtitle || 'THIS METHOD REQUIRES MALIÁ BUTTERFLY CERTIFICATION BEFORE PURCHASE.\n\nOUR TRAINING ENSURES YOU MASTER THE TECHNIQUE SAFELY AND EFFECTIVELY, PROTECTING BOTH YOU AND YOUR CLIENTS.';
+                document.getElementById('butterflyButtonText').value = settings.butterfly_button_text || 'EXPLORE CERTIFICATIONS OPTIONS';
+                
+                // Update previews
+                updateProPreview();
+                updateButterflyPreview();
             }
         }
 
-        async function saveSettings(event) {
+        async function saveAccessControl(event) {
             event.preventDefault();
             
             const formData = new FormData(event.target);
+            const selectedEducation = Array.from(document.getElementById('educationCollections').selectedOptions).map(option => option.value);
+            const selectedButterfly = Array.from(document.getElementById('butterflyCollections').selectedOptions).map(option => option.value);
+            
             const settings = {
                 is_enabled: formData.get('isEnabled') === 'on',
-                butterfly_paid_tag: formData.get('butterflyPaidTag'),
+                verified_tag: formData.get('verifiedTag'),
+                butterfly_paid_tag: formData.get('butterflyTag'),
                 certification_url: formData.get('certificationUrl'),
-                education_collections: formData.get('educationCollections'),
-                pro_account_message: formData.get('proAccountMessage'),
-                pro_account_description: formData.get('proAccountDescription'),
-                certification_message: formData.get('certificationMessage'),
-                certification_description: formData.get('certificationDescription')
+                education_collections: selectedEducation.join(','),
+                butterfly_collections: selectedButterfly.join(',')
             };
 
             try {
-                const response = await fetch('/api/admin/settings', {
+                const response = await fetch('/api/admin/access-control', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
@@ -543,12 +745,49 @@
                 const data = await response.json();
                 
                 if (response.ok) {
-                    showSuccess('Settings saved successfully!');
+                    showSuccess('✅ Access control settings saved successfully!');
+                    loadDashboard(); // Refresh stats
                 } else {
-                    showError('Failed to save settings: ' + data.error);
+                    showError('Failed to save access control: ' + data.error);
                 }
             } catch (error) {
-                showError('Error saving settings: ' + error.message);
+                showError('Error saving access control: ' + error.message);
+            }
+        }
+
+        async function saveMessages(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const settings = {
+                pro_account_title: formData.get('proAccountTitle'),
+                pro_account_subtitle: formData.get('proAccountSubtitle'),
+                pro_account_create_text: formData.get('proAccountCreateText'),
+                pro_account_login_text: formData.get('proAccountLoginText'),
+                pro_account_locate_text: formData.get('proAccountLocateText'),
+                butterfly_title: formData.get('butterflyTitle'),
+                butterfly_subtitle: formData.get('butterflySubtitle'),
+                butterfly_button_text: formData.get('butterflyButtonText')
+            };
+
+            try {
+                const response = await fetch('/api/admin/messages', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(settings)
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showSuccess('✅ Message settings saved successfully!');
+                } else {
+                    showError('Failed to save messages: ' + data.error);
+                }
+            } catch (error) {
+                showError('Error saving messages: ' + error.message);
             }
         }
 
@@ -565,94 +804,12 @@
 
             // Load tab-specific data
             switch (tabName) {
-                case 'products':
-                    loadProducts();
-                    break;
                 case 'collections':
                     loadCollections();
                     break;
                 case 'analytics':
                     loadAnalytics();
                     break;
-            }
-        }
-
-        async function loadProducts() {
-            try {
-                const response = await fetch('/api/admin/products');
-                const data = await response.json();
-                
-                if (response.ok) {
-                    products = data.products;
-                    renderProductsTable();
-                } else {
-                    showError('Failed to load products: ' + data.error);
-                }
-            } catch (error) {
-                showError('Error loading products: ' + error.message);
-            }
-        }
-
-        function renderProductsTable() {
-            const table = `
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th><input type="checkbox" class="checkbox" onchange="toggleAllProducts(this.checked)"></th>
-                            <th>Product</th>
-                            <th>Type</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${products.map(product => `
-                            <tr>
-                                <td><input type="checkbox" class="checkbox product-checkbox" value="${product.id}"></td>
-                                <td>
-                                    <strong>${product.title}</strong><br>
-                                    <small>${product.handle}</small>
-                                </td>
-                                <td>${product.product_type || 'N/A'}</td>
-                                <td>
-                                    <span class="status-badge ${product.isRestricted ? 'status-restricted' : 'status-unrestricted'}">
-                                        ${product.isRestricted ? 'Restricted' : 'Unrestricted'}
-                                    </span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm" onclick="toggleProductRestriction(${product.id}, ${!product.isRestricted})">
-                                        ${product.isRestricted ? 'Allow Access' : 'Restrict Access'}
-                                    </button>
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-            
-            document.getElementById('productsTable').innerHTML = table;
-        }
-
-        async function toggleProductRestriction(productId, isRestricted) {
-            try {
-                const response = await fetch(`/api/admin/products/${productId}/restriction`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ isRestricted })
-                });
-
-                const data = await response.json();
-                
-                if (response.ok) {
-                    showSuccess(`Product ${isRestricted ? 'restricted' : 'unrestricted'} successfully!`);
-                    loadProducts(); // Refresh the table
-                } else {
-                    showError('Failed to update product: ' + data.error);
-                }
-            } catch (error) {
-                showError('Error updating product: ' + error.message);
             }
         }
 
@@ -663,7 +820,8 @@
                 
                 if (response.ok) {
                     collections = data.collections;
-                    renderCollectionsTable();
+                    renderCollectionsGrid();
+                    populateCollectionSelectors();
                 } else {
                     showError('Failed to load collections: ' + data.error);
                 }
@@ -672,96 +830,112 @@
             }
         }
 
-        function renderCollectionsTable() {
-            const table = `
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Collection</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${collections.map(collection => `
-                            <tr>
-                                <td>
-                                    <strong>${collection.title}</strong><br>
-                                    <small>${collection.handle}</small>
-                                </td>
-                                <td>
-                                    <span class="status-badge ${collection.isException ? 'status-exception' : 'status-restricted'}">
-                                        ${collection.isException ? 'Exception' : 'Default'}
-                                    </span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm" onclick="toggleCollectionException(${collection.id}, ${!collection.isException})">
-                                        ${collection.isException ? 'Remove Exception' : 'Set as Exception'}
-                                    </button>
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
+        function renderCollectionsGrid() {
+            const grid = document.getElementById('collectionsGrid');
             
-            document.getElementById('collectionsTable').innerHTML = table;
+            if (!collections || collections.length === 0) {
+                grid.innerHTML = '<p>No collections found.</p>';
+                return;
+            }
+            
+            const html = collections.map(collection => {
+                // Determine access level based on collection
+                let accessLevel = 'level-verified';
+                let accessText = 'Verified Access';
+                
+                if (settings.education_collections && settings.education_collections.includes(collection.handle)) {
+                    accessLevel = 'level-public';
+                    accessText = 'Public Access';
+                } else if (settings.butterfly_collections && settings.butterfly_collections.includes(collection.handle)) {
+                    accessLevel = 'level-butterfly';
+                    accessText = 'Butterfly Only';
+                }
+                
+                return `
+                    <div class="collection-card">
+                        <h5>${collection.title}</h5>
+                        <p>${collection.handle}</p>
+                        <div class="access-level-badge ${accessLevel}">${accessText}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            grid.innerHTML = html;
         }
 
-        async function toggleCollectionException(collectionId, isException) {
-            try {
-                const response = await fetch(`/api/admin/collections/${collectionId}/exception`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ isException })
-                });
-
-                const data = await response.json();
+        function populateCollectionSelectors() {
+            const educationSelect = document.getElementById('educationCollections');
+            const butterflySelect = document.getElementById('butterflyCollections');
+            
+            // Clear existing options
+            educationSelect.innerHTML = '';
+            butterflySelect.innerHTML = '';
+            
+            collections.forEach(collection => {
+                const option1 = new Option(collection.title, collection.handle);
+                const option2 = new Option(collection.title, collection.handle);
                 
-                if (response.ok) {
-                    showSuccess(`Collection ${isException ? 'set as exception' : 'removed from exceptions'} successfully!`);
-                    loadCollections(); // Refresh the table
-                } else {
-                    showError('Failed to update collection: ' + data.error);
-                }
-            } catch (error) {
-                showError('Error updating collection: ' + error.message);
+                educationSelect.add(option1);
+                butterflySelect.add(option2);
+            });
+            
+            // Set selected values if they exist
+            if (settings.education_collections) {
+                const educationCollections = settings.education_collections.split(',');
+                Array.from(educationSelect.options).forEach(option => {
+                    if (educationCollections.includes(option.value)) {
+                        option.selected = true;
+                    }
+                });
+            }
+            
+            if (settings.butterfly_collections) {
+                const butterflyCollections = settings.butterfly_collections.split(',');
+                Array.from(butterflySelect.options).forEach(option => {
+                    if (butterflyCollections.includes(option.value)) {
+                        option.selected = true;
+                    }
+                });
             }
         }
 
-        async function loadAnalytics(analyticsData = null) {
+        async function loadAnalytics() {
             try {
-                let data = analyticsData;
-                if (!data) {
-                    const response = await fetch('/api/admin/analytics');
-                    data = await response.json();
-                }
+                const response = await fetch('/api/admin/analytics');
+                const data = await response.json();
                 
                 if (data && data.analytics) {
                     renderAnalytics(data.analytics);
                 } else {
-                    document.getElementById('analyticsContent').innerHTML = '<p>No analytics data available.</p>';
+                    document.getElementById('analyticsContent').innerHTML = '<p>No analytics data available yet.</p>';
                 }
             } catch (error) {
                 showError('Error loading analytics: ' + error.message);
             }
         }
 
-        function renderAnalytics(analytics) {
+        function renderAnalytics(analyticsData) {
             const content = `
-                <div class="analytics-stats">
-                    ${analytics.map(stat => `
-                        <div class="stat">
-                            <span>${stat.access_type.replace('_', ' ').toUpperCase()}</span>
-                            <span class="stat-value">${stat.count}</span>
-                        </div>
-                    `).join('')}
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <h4>Access Attempts (30 days)</h4>
+                        ${analyticsData.map(stat => `
+                            <div class="stat">
+                                <span>${stat.access_type.replace('_', ' ').toUpperCase()}</span>
+                                <span class="stat-value">${stat.count}</span>
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
             `;
             
             document.getElementById('analyticsContent').innerHTML = content;
+        }
+
+        function testMessages() {
+            // Switch to messages tab
+            switchTab('messages');
+            showSuccess('📋 Review your message previews below. Messages will appear exactly as shown to your customers.');
         }
 
         function showSuccess(message) {
@@ -792,108 +966,26 @@
         function exportSettings() {
             const data = {
                 settings: settings,
-                products: products,
                 collections: collections,
-                exportDate: new Date().toISOString()
+                exportDate: new Date().toISOString(),
+                version: '3.0-tier-system'
             };
             
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'malia-pro-access-settings.json';
+            a.download = 'malia-3tier-access-settings.json';
             a.click();
             URL.revokeObjectURL(url);
         }
 
-        // Product management functions
-        function searchProducts() {
-            const searchTerm = document.getElementById('productSearch').value.toLowerCase();
-            const filteredProducts = products.filter(product => 
-                product.title.toLowerCase().includes(searchTerm) ||
-                product.handle.toLowerCase().includes(searchTerm) ||
-                (product.product_type && product.product_type.toLowerCase().includes(searchTerm))
-            );
-            
-            // Re-render table with filtered products
-            const originalProducts = products;
-            products = filteredProducts;
-            renderProductsTable();
-            products = originalProducts;
-        }
-
-        function toggleAllProducts(checked) {
-            document.querySelectorAll('.product-checkbox').forEach(checkbox => {
-                checkbox.checked = checked;
-            });
-        }
-
-        function selectAllProducts() {
-            document.querySelectorAll('.product-checkbox').forEach(checkbox => {
-                checkbox.checked = true;
-            });
-        }
-
-        function deselectAllProducts() {
-            document.querySelectorAll('.product-checkbox').forEach(checkbox => {
-                checkbox.checked = false;
-            });
-        }
-
-        async function bulkSetRestricted() {
-            const selectedProducts = Array.from(document.querySelectorAll('.product-checkbox:checked'))
-                .map(checkbox => parseInt(checkbox.value));
-            
-            if (selectedProducts.length === 0) {
-                showError('Please select products to update');
-                return;
+        // Auto-load collections when dashboard loads
+        setTimeout(() => {
+            if (currentTab === 'access-control') {
+                loadCollections();
             }
-
-            await bulkUpdateProducts(selectedProducts, true);
-        }
-
-        async function bulkSetUnrestricted() {
-            const selectedProducts = Array.from(document.querySelectorAll('.product-checkbox:checked'))
-                .map(checkbox => parseInt(checkbox.value));
-            
-            if (selectedProducts.length === 0) {
-                showError('Please select products to update');
-                return;
-            }
-
-            await bulkUpdateProducts(selectedProducts, false);
-        }
-
-        async function bulkUpdateProducts(productIds, isRestricted) {
-            try {
-                const updates = productIds.map(productId => ({
-                    productId,
-                    isRestricted,
-                    customMessage: null
-                }));
-
-                const response = await fetch('/api/admin/products/bulk-update', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ updates })
-                });
-
-                const data = await response.json();
-                
-                if (response.ok) {
-                    showSuccess(`Updated ${productIds.length} products successfully!`);
-                    loadProducts(); // Refresh the table
-                } else {
-                    showError('Failed to update products: ' + data.error);
-                }
-            } catch (error) {
-                showError('Error updating products: ' + error.message);
-            }
-        }
+        }, 1000);
     </script>
 </body>
 </html>
-
-
