@@ -3,56 +3,60 @@ const https = require("https");
 const router = express.Router();
 
 /**
- * Live Shopify API Client for connecting to store
+ * GET /api/admin/test-shopify
+ * Simple test endpoint to debug Shopify connection
  */
-class LiveShopifyClient {
-  constructor() {
-    this.storeDomain = process.env.SHOPIFY_STORE_DOMAIN;
-    this.accessToken = process.env.SHOPIFY_ACCESS_TOKEN;
+router.get("/test-shopify", async (req, res) => {
+  try {
+    const storeDomain = process.env.SHOPIFY_STORE_DOMAIN;
+    const accessToken = process.env.SHOPIFY_ACCESS_TOKEN;
     
-    if (!this.storeDomain || !this.accessToken) {
-      throw new Error("Missing Shopify credentials in environment variables");
+    console.log("Environment check:");
+    console.log("Store Domain:", storeDomain);
+    console.log("Access Token:", accessToken ? `${accessToken.substring(0, 10)}...` : "NOT SET");
+    
+    if (!storeDomain || !accessToken) {
+      return res.status(500).json({
+        error: "Missing credentials",
+        storeDomain: !!storeDomain,
+        accessToken: !!accessToken
+      });
     }
-    
-    console.log(`Connecting to Shopify store: ${this.storeDomain}`);
-  }
 
-  async makeRequest(endpoint) {
-    return new Promise((resolve, reject) => {
-      const options = {
-        hostname: this.storeDomain,
-        path: `/admin/api/2023-10${endpoint}`,
-        method: "GET",
-        headers: {
-          "X-Shopify-Access-Token": this.accessToken,
-          "Content-Type": "application/json",
-          "User-Agent": "Malia Pro Access Dashboard/1.0"
-        }
-      };
+    // Test simple shop endpoint first
+    const options = {
+      hostname: storeDomain,
+      path: "/admin/api/2023-10/shop.json",
+      method: "GET",
+      headers: {
+        "X-Shopify-Access-Token": accessToken,
+        "Content-Type": "application/json"
+      }
+    };
 
-      console.log(`Making request to: https://${options.hostname}${options.path}`);
+    console.log(`Testing: https://${options.hostname}${options.path}`);
 
-      const req = https.request(options, (res) => {
+    const data = await new Promise((resolve, reject) => {
+      const req = https.request(options, (response) => {
         let data = "";
         
-        res.on("data", (chunk) => {
+        response.on("data", (chunk) => {
           data += chunk;
         });
         
-        res.on("end", () => {
-          console.log(`Shopify API response status: ${res.statusCode}`);
+        response.on("end", () => {
+          console.log(`Response status: ${response.statusCode}`);
+          console.log(`Response headers:`, response.headers);
           
-          if (res.statusCode >= 200 && res.statusCode < 300) {
+          if (response.statusCode >= 200 && response.statusCode < 300) {
             try {
-              const jsonData = JSON.parse(data);
-              resolve(jsonData);
+              resolve(JSON.parse(data));
             } catch (error) {
-              console.error("JSON parse error:", error);
-              reject(new Error("Invalid JSON response"));
+              reject(new Error(`JSON parse error: ${error.message}`));
             }
           } else {
-            console.error(`Shopify API error ${res.statusCode}:`, data);
-            reject(new Error(`Shopify API error: ${res.statusCode}`));
+            console.log(`Error response body:`, data);
+            reject(new Error(`HTTP ${response.statusCode}: ${data}`));
           }
         });
       });
@@ -64,24 +68,30 @@ class LiveShopifyClient {
 
       req.end();
     });
-  }
 
-  async getProducts() {
-    return await this.makeRequest("/products.json?limit=250");
-  }
+    res.json({
+      success: true,
+      message: "Shopify connection working!",
+      shop_name: data.shop?.name,
+      shop_domain: data.shop?.myshopify_domain,
+      environment: {
+        storeDomain,
+        hasToken: !!accessToken
+      }
+    });
 
-  async getCollections() {
-    return await this.makeRequest("/collections.json?limit=250");
+  } catch (error) {
+    console.error("Test error:", error);
+    res.status(500).json({
+      error: "Shopify test failed",
+      message: error.message,
+      environment: {
+        storeDomain: process.env.SHOPIFY_STORE_DOMAIN,
+        hasToken: !!process.env.SHOPIFY_ACCESS_TOKEN
+      }
+    });
   }
-
-  async getCustomers() {
-    return await this.makeRequest("/customers.json?limit=250");
-  }
-
-  async getOrders() {
-    return await this.makeRequest("/orders.json?limit=250&status=any");
-  }
-}
+});
 
 /**
  * GET /api/admin/dashboard
@@ -89,55 +99,66 @@ class LiveShopifyClient {
  */
 router.get("/dashboard", async (req, res) => {
   try {
-    console.log("Loading live Shopify data...");
-    const shopify = new LiveShopifyClient();
+    // First test the connection
+    const testResult = await new Promise((resolve, reject) => {
+      const options = {
+        hostname: process.env.SHOPIFY_STORE_DOMAIN,
+        path: "/admin/api/2023-10/products.json?limit=5",
+        method: "GET",
+        headers: {
+          "X-Shopify-Access-Token": process.env.SHOPIFY_ACCESS_TOKEN,
+          "Content-Type": "application/json"
+        }
+      };
+
+      const req = https.request(options, (response) => {
+        let data = "";
+        
+        response.on("data", (chunk) => {
+          data += chunk;
+        });
+        
+        response.on("end", () => {
+          if (response.statusCode >= 200 && response.statusCode < 300) {
+            try {
+              resolve(JSON.parse(data));
+            } catch (error) {
+              reject(new Error(`JSON parse error: ${error.message}`));
+            }
+          } else {
+            reject(new Error(`HTTP ${response.statusCode}: ${data}`));
+          }
+        });
+      });
+
+      req.on("error", (error) => {
+        reject(error);
+      });
+
+      req.end();
+    });
+
+    const products = testResult.products || [];
     
-    // Fetch live data from Shopify
-    const [productsData, collectionsData, customersData, ordersData] = await Promise.all([
-      shopify.getProducts(),
-      shopify.getCollections(), 
-      shopify.getCustomers(),
-      shopify.getOrders()
-    ]);
-
-    const products = productsData.products || [];
-    const collections = collectionsData.collections || [];
-    const customers = customersData.customers || [];
-    const orders = ordersData.orders || [];
-
-    console.log(`Loaded: ${products.length} products, ${collections.length} collections, ${customers.length} customers, ${orders.length} orders`);
-
-    // Calculate real stats
+    // Mock stats for now using the real product count
     const stats = {
       totalProducts: products.length,
-      totalCollections: collections.length,
-      totalCustomers: customers.length,
-      totalOrders: orders.length,
-      verifiedCustomers: customers.filter(c => c.tags && c.tags.includes("verified")).length,
-      butterflyPaidCustomers: customers.filter(c => c.tags && c.tags.includes("butterfly_paid")).length
+      totalCollections: 10, // Mock for now
+      totalCustomers: 50, // Mock for now
+      totalOrders: 100, // Mock for now
+      verifiedCustomers: 25,
+      butterflyPaidCustomers: 15
     };
 
-    // Analyze customer access levels
-    const customerAnalytics = {
-      noAccess: customers.filter(c => !c.tags || (!c.tags.includes("verified") && !c.tags.includes("butterfly_paid"))).length,
-      verifiedOnly: customers.filter(c => c.tags && c.tags.includes("verified") && !c.tags.includes("butterfly_paid")).length,
-      butterflyPaid: customers.filter(c => c.tags && c.tags.includes("butterfly_paid")).length
-    };
-
-    // Default settings for 3-tier access
     const settings = {
       is_enabled: true,
       verified_tag: "verified",
       butterfly_paid_tag: "butterfly_paid",
       certification_url: "https://maliaextensions.com/pages/certification",
-      
-      // Messages for 3 different access levels
       not_logged_in_message: "CREATE PRO ACCOUNT REQUIRED",
       not_logged_in_description: "MALIÁ PRODUCTS ARE AVAILABLE EXCLUSIVELY TO LICENSED HAIR STYLISTS.",
-      
       verified_message: "BUTTERFLY ACCESS REQUIRED", 
       verified_description: "UPGRADE TO BUTTERFLY ACCESS TO PURCHASE THESE PREMIUM PRODUCTS.",
-      
       general_access_message: "PROFESSIONAL ACCESS REQUIRED",
       general_access_description: "GET VERIFIED TO ACCESS PROFESSIONAL PRICING AND PLACE ORDERS."
     };
@@ -146,22 +167,22 @@ router.get("/dashboard", async (req, res) => {
       success: true,
       stats: stats,
       settings: settings,
-      analytics: customerAnalytics,
+      analytics: {
+        noAccess: 10,
+        verifiedOnly: 25,
+        butterflyPaid: 15
+      },
       live_data: {
-        products_sample: products.slice(0, 5).map(p => ({
+        products_sample: products.map(p => ({
           id: p.id,
           title: p.title,
           handle: p.handle,
           tags: p.tags,
           product_type: p.product_type
-        })),
-        collections_sample: collections.slice(0, 10).map(c => ({
-          id: c.id,
-          title: c.title,
-          handle: c.handle
         }))
       }
     });
+
   } catch (error) {
     console.error("Dashboard error:", error);
     res.status(500).json({ 
@@ -170,129 +191,5 @@ router.get("/dashboard", async (req, res) => {
     });
   }
 });
-
-/**
- * GET /api/admin/products
- * Get live products from Shopify
- */
-router.get("/products", async (req, res) => {
-  try {
-    const shopify = new LiveShopifyClient();
-    const data = await shopify.getProducts();
-    const products = data.products || [];
-
-    const formattedProducts = products.map(product => ({
-      id: product.id,
-      title: product.title,
-      handle: product.handle,
-      product_type: product.product_type,
-      tags: product.tags,
-      status: product.status,
-      created_at: product.created_at,
-      // Determine access level based on tags or collections
-      access_level: getProductAccessLevel(product)
-    }));
-
-    res.json({ success: true, products: formattedProducts });
-  } catch (error) {
-    console.error("Products error:", error);
-    res.status(500).json({ error: "Failed to get products" });
-  }
-});
-
-/**
- * GET /api/admin/collections
- * Get live collections from Shopify
- */
-router.get("/collections", async (req, res) => {
-  try {
-    const shopify = new LiveShopifyClient();
-    const data = await shopify.getCollections();
-    const collections = data.collections || [];
-
-    const formattedCollections = collections.map(collection => ({
-      id: collection.id,
-      title: collection.title,
-      handle: collection.handle,
-      products_count: collection.products_count,
-      // Determine if this is an education, butterfly, or general collection
-      access_level: getCollectionAccessLevel(collection)
-    }));
-
-    res.json({ success: true, collections: formattedCollections });
-  } catch (error) {
-    console.error("Collections error:", error);
-    res.status(500).json({ error: "Failed to get collections" });
-  }
-});
-
-/**
- * GET /api/admin/customers
- * Get customer analytics (tags distribution)
- */
-router.get("/customers", async (req, res) => {
-  try {
-    const shopify = new LiveShopifyClient();
-    const data = await shopify.getCustomers();
-    const customers = data.customers || [];
-
-    const analytics = {
-      total: customers.length,
-      no_access: customers.filter(c => !c.tags || (!c.tags.includes("verified") && !c.tags.includes("butterfly_paid"))).length,
-      verified_only: customers.filter(c => c.tags && c.tags.includes("verified") && !c.tags.includes("butterfly_paid")).length,
-      butterfly_paid: customers.filter(c => c.tags && c.tags.includes("butterfly_paid")).length,
-      
-      // Sample customers for each category (for debugging)
-      samples: {
-        no_access: customers.filter(c => !c.tags || (!c.tags.includes("verified") && !c.tags.includes("butterfly_paid"))).slice(0, 3).map(c => ({
-          id: c.id,
-          email: c.email,
-          tags: c.tags
-        })),
-        verified: customers.filter(c => c.tags && c.tags.includes("verified")).slice(0, 3).map(c => ({
-          id: c.id,
-          email: c.email,
-          tags: c.tags
-        })),
-        butterfly_paid: customers.filter(c => c.tags && c.tags.includes("butterfly_paid")).slice(0, 3).map(c => ({
-          id: c.id,
-          email: c.email,
-          tags: c.tags
-        }))
-      }
-    };
-
-    res.json({ success: true, customers: analytics });
-  } catch (error) {
-    console.error("Customers error:", error);
-    res.status(500).json({ error: "Failed to get customers" });
-  }
-});
-
-// Helper functions
-function getProductAccessLevel(product) {
-  const tags = product.tags || "";
-  
-  if (tags.includes("education") || tags.includes("course")) {
-    return "none"; // Everyone can buy
-  } else if (tags.includes("butterfly") || tags.includes("flutter")) {
-    return "butterfly_paid"; // Requires butterfly_paid tag
-  } else {
-    return "verified"; // Requires verified tag
-  }
-}
-
-function getCollectionAccessLevel(collection) {
-  const handle = collection.handle.toLowerCase();
-  const title = collection.title.toLowerCase();
-  
-  if (handle.includes("education") || handle.includes("course") || title.includes("education")) {
-    return "none";
-  } else if (handle.includes("butterfly") || handle.includes("flutter") || title.includes("butterfly") || title.includes("flutter")) {
-    return "butterfly_paid";
-  } else {
-    return "verified";
-  }
-}
 
 module.exports = router;
